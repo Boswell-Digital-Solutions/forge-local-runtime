@@ -1,0 +1,13 @@
+{
+  "event_id": "evt-20260318-0001",
+  "event_class": "execution_denied",
+  "service_id": "fa-local",
+  "correlation_id": "corr-20260318-001",
+  "timestamp": "2026-03-18T12:05:00Z",
+  "requester_class": "unknown",
+  "capability_id": "local.exec.write_file",
+  "severity": "warning",
+  "retention_class": "short",
+  "content_included": false,
+  "redaction_status": "content_excluded"
+}

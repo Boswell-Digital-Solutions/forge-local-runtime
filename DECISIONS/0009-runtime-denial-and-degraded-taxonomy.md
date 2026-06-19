@@ -1,23 +1,24 @@
-# ADR 0009 — Project Framing
+# ADR 0009 — Runtime Denial and Degraded Taxonomy
 
 ## Status
 Accepted
 
 ## Context
 
-Forge Local Runtime needs to exist as a standalone governance-and-contracts authority repository rather than remaining implicit inside broader Forge planning.
+The runtime layer needs a shared language for denial, degraded operation, stale outputs, partial success, unavailable dependencies, and other reduced-trust states.
 
-The local runtime is already a distinct architecture layer with its own doctrine, trust boundaries, degraded-state posture, handoff rules, and anti-drift requirements.
+Without a shared taxonomy, each service will invent incompatible language and consuming applications will not be able to interpret operational truth consistently.
 
 ## Decision
 
-Forge Local Runtime is established as the constitutional and integration authority for the local service substrate of the Forge ecosystem.
+Forge Local Runtime defines a shared runtime-wide denial and degraded-state taxonomy.
 
-It is a governance-first repository, not an implementation sink.
+This taxonomy must be explicit, reusable, and machine-testable through shared schemas.
+It must preserve subtype truth rather than flattening all reduced states into a single generic degraded label.
 
 ## Consequences
 
-- Runtime doctrine can be stabilized independently of service implementation.
-- Boundary lines become easier to test and audit.
-- Cross-service control language can be defined once and reused.
-- Implementation must not outrun doctrine, decisions, schemas, and anti-drift surfaces.
+- Cross-service operational truth becomes consistent.
+- Applications can interpret runtime state without service-specific guesswork.
+- Denial and degraded schemas become first-class control surfaces.
+- Future enum expansion should be governed and reviewed rather than improvised.

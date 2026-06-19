@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boswelldigitalsolutions.com/schemas/forge-local-runtime/degraded-state.schema.json",
+  "title": "Forge Local Runtime Degraded State",
+  "description": "Shared degraded-state vocabulary for Forge Local Runtime services.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "state",
+    "subtype",
+    "operator_visible_message",
+    "truthfulness_class",
+    "last_updated_at"
+  ],
+  "properties": {
+    "state": {
+      "type": "string",
+      "const": "degraded"
+    },
+    "subtype": {
+      "type": "string",
+      "enum": [
+        "degraded",
+        "stale",
+        "partial_success",
+        "unavailable_dependency_block",
+        "degraded_pre_start",
+        "degraded_in_flight",
+        "degraded_fallback_equivalent",
+        "degraded_fallback_limited",
+        "degraded_partial",
+        "migration_blocked",
+        "restore_constrained",
+        "integrity_warning",
+        "integrity_failed",
+        "extraction_incomplete",
+        "re_prep_required",
+        "admitted_not_started",
+        "waiting_explicit_approval",
+        "completed_with_constraints"
+      ]
+    },
+    "truthfulness_class": {
+      "type": "string",
+      "enum": [
+        "specific",
+        "bounded_approximation"
+      ]
+    },
+    "operator_visible_message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "service_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "details_redacted": {
+      "type": "boolean",
+      "default": true
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "last_updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "review_path_available": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -1,23 +1,26 @@
-# ADR 0003 — Project Framing
+# ADR 0003 — Local vs Cloud Boundary
 
 ## Status
 Accepted
 
 ## Context
 
-Forge Local Runtime needs to exist as a standalone governance-and-contracts authority repository rather than remaining implicit inside broader Forge planning.
+Forge uses both local-first and cloud-augmented architecture patterns.
 
-The local runtime is already a distinct architecture layer with its own doctrine, trust boundaries, degraded-state posture, handoff rules, and anti-drift requirements.
+Without an explicit boundary, cloud services can silently become baseline dependencies, or local systems can be distorted into weak cloud imitations.
+
+The local runtime needs a constitutional minimum role that remains meaningful without cloud access.
 
 ## Decision
 
-Forge Local Runtime is established as the constitutional and integration authority for the local service substrate of the Forge ecosystem.
+The local runtime is a meaningful baseline substrate that must remain useful without cloud connectivity.
 
-It is a governance-first repository, not an implementation sink.
+Cloud services are additive capability layers.
+They may augment local depth, scale, breadth, or synchronization, but they must not redefine the constitutional minimum responsibilities of the local runtime.
 
 ## Consequences
 
-- Runtime doctrine can be stabilized independently of service implementation.
-- Boundary lines become easier to test and audit.
-- Cross-service control language can be defined once and reused.
-- Implementation must not outrun doctrine, decisions, schemas, and anti-drift surfaces.
+- The local runtime must deliver real standalone value.
+- Cloud augmentation is permitted, but dependency drift is not.
+- Local services should not be designed as thin placeholders for future cloud replacement.
+- Boundary docs and schemas must preserve this distinction.

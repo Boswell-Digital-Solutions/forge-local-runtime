@@ -1,0 +1,40 @@
+{
+  "services": [
+    {
+      "service_id": "df-local-foundation",
+      "must_not_claim": [
+        "workflow_authority",
+        "semantic_authority",
+        "execution_authority",
+        "inference_authority"
+      ]
+    },
+    {
+      "service_id": "neuronforge-local",
+      "must_not_claim": [
+        "final_truth_authority",
+        "workflow_authority",
+        "open_ended_autonomy",
+        "execution_governance"
+      ]
+    },
+    {
+      "service_id": "cortex",
+      "must_not_claim": [
+        "semantic_interpretation",
+        "workflow_control",
+        "generic_etl_platform",
+        "surveillance_by_default"
+      ]
+    },
+    {
+      "service_id": "fa-local",
+      "must_not_claim": [
+        "durable_semantic_memory",
+        "app_semantic_authority",
+        "open_ended_planning",
+        "ungoverned_tool_access"
+      ]
+    }
+  ]
+}

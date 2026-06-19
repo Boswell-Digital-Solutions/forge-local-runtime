@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boswelldigitalsolutions.com/schemas/forge-local-runtime/runtime-contract.schema.json",
+  "title": "Forge Local Runtime Contract",
+  "description": "Shared bounded contract envelope for governed local runtime interactions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_id",
+    "contract_class",
+    "source_service_id",
+    "target_service_id",
+    "requester_class",
+    "capability_id",
+    "input_artifact_refs",
+    "policy_posture",
+    "created_at"
+  ],
+  "properties": {
+    "contract_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "contract_class": {
+      "type": "string",
+      "enum": [
+        "inference_task",
+        "file_prep",
+        "execution_request",
+        "review_package",
+        "readiness_probe"
+      ]
+    },
+    "source_service_id": {
+      "type": "string",
+      "enum": [
+        "df-local-foundation",
+        "neuronforge-local",
+        "cortex",
+        "fa-local"
+      ]
+    },
+    "target_service_id": {
+      "type": "string",
+      "enum": [
+        "df-local-foundation",
+        "neuronforge-local",
+        "cortex",
+        "fa-local"
+      ]
+    },
+    "requester_class": {
+      "type": "string",
+      "enum": [
+        "trusted_operator",
+        "trusted_application_surface",
+        "constrained_internal_caller",
+        "unknown",
+        "untrusted"
+      ]
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 150
+    },
+    "input_artifact_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300
+      }
+    },
+    "policy_posture": {
+      "type": "string",
+      "enum": [
+        "not_required",
+        "required_present",
+        "required_missing",
+        "review_required"
+      ]
+    },
+    "plan_hash": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 256
+    },
+    "approval_posture": {
+      "type": "string",
+      "enum": [
+        "deny",
+        "review_required",
+        "explicit_operator_approval",
+        "policy_preapproved",
+        "execute_allowed"
+      ]
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      }
+    },
+    "details_redacted": {
+      "type": "boolean",
+      "default": true
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

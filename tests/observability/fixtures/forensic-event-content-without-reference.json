@@ -1,0 +1,10 @@
+{
+  "event_id": "evt-20260318-0002",
+  "event_class": "privacy_scope_violation",
+  "service_id": "fa-local",
+  "timestamp": "2026-03-18T12:06:00Z",
+  "severity": "high",
+  "retention_class": "standard",
+  "content_included": true,
+  "redaction_status": "redacted"
+}

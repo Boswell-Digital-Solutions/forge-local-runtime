@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boswelldigitalsolutions.com/schemas/forge-local-runtime/forensic-event-envelope.schema.json",
+  "title": "Forge Local Runtime Forensic Event Envelope",
+  "description": "Minimized forensic event envelope for Forge Local Runtime services.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "event_class",
+    "service_id",
+    "timestamp",
+    "severity",
+    "retention_class",
+    "content_included",
+    "redaction_status"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "event_class": {
+      "type": "string",
+      "enum": [
+        "execution_denied",
+        "execution_degraded",
+        "execution_completed_with_constraints",
+        "policy_violation_attempt",
+        "integrity_failure",
+        "handoff_rejected",
+        "readiness_transition",
+        "migration_event",
+        "restore_event",
+        "privacy_scope_violation"
+      ]
+    },
+    "service_id": {
+      "type": "string",
+      "enum": [
+        "df-local-foundation",
+        "neuronforge-local",
+        "cortex",
+        "fa-local"
+      ]
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "child_correlation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "plan_hash": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 256
+    },
+    "requester_class": {
+      "type": "string",
+      "enum": [
+        "trusted_operator",
+        "trusted_application_surface",
+        "constrained_internal_caller",
+        "unknown",
+        "untrusted"
+      ]
+    },
+    "capability_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 150
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "high",
+        "critical"
+      ]
+    },
+    "retention_class": {
+      "type": "string",
+      "enum": [
+        "ephemeral",
+        "short",
+        "standard",
+        "extended_by_exception"
+      ]
+    },
+    "content_included": {
+      "type": "boolean",
+      "default": false
+    },
+    "redaction_status": {
+      "type": "string",
+      "enum": [
+        "not_applicable",
+        "redacted",
+        "content_excluded"
+      ]
+    },
+    "content_reference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "content_included": { "const": true }
+        },
+        "required": ["content_included"]
+      },
+      "then": {
+        "required": ["content_reference"],
+        "properties": {
+          "redaction_status": {
+            "enum": [
+              "redacted"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "redaction_status": {
+            "enum": [
+              "not_applicable",
+              "content_excluded"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

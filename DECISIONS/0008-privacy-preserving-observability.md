@@ -1,23 +1,25 @@
-# ADR 0008 — Project Framing
+# ADR 0008 — Privacy-Preserving Observability
 
 ## Status
 Accepted
 
 ## Context
 
-Forge Local Runtime needs to exist as a standalone governance-and-contracts authority repository rather than remaining implicit inside broader Forge planning.
+The local runtime needs truthful health, readiness, degraded-state, denial, and forensic visibility.
 
-The local runtime is already a distinct architecture layer with its own doctrine, trust boundaries, degraded-state posture, handoff rules, and anti-drift requirements.
+But local systems often have access to sensitive content, prompts, files, intermediate artifacts, or execution context.
+A broad observability model would create surveillance power inconsistent with local trust.
 
 ## Decision
 
-Forge Local Runtime is established as the constitutional and integration authority for the local service substrate of the Forge ecosystem.
+Forge Local Runtime adopts privacy-preserving observability as a constitutional requirement.
 
-It is a governance-first repository, not an implementation sink.
+Operational visibility must default to minimized, scoped, and content-sparing posture.
+Raw content capture, broad watch surfaces, and persistent inspection by default are prohibited unless explicitly justified and governed.
 
 ## Consequences
 
-- Runtime doctrine can be stabilized independently of service implementation.
-- Boundary lines become easier to test and audit.
-- Cross-service control language can be defined once and reused.
-- Implementation must not outrun doctrine, decisions, schemas, and anti-drift surfaces.
+- Readiness and degraded truth remain available without content collapse.
+- Diagnostics should prefer metadata, counts, hashes, classifications, and redacted summaries over raw payloads.
+- Forensic events must follow minimization and retention rules.
+- Any expansion of observation scope requires explicit doctrine and boundary review.

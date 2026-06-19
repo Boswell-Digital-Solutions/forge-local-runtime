@@ -1,23 +1,31 @@
-# ADR 0007 — Project Framing
+# ADR 0007 — Split Trigger Policy
 
 ## Status
 Accepted
 
 ## Context
 
-Forge Local Runtime needs to exist as a standalone governance-and-contracts authority repository rather than remaining implicit inside broader Forge planning.
+Architectures can become fragmented by symmetry theater, or can become monolithic by refusing to separate genuinely distinct concerns.
 
-The local runtime is already a distinct architecture layer with its own doctrine, trust boundaries, degraded-state posture, handoff rules, and anti-drift requirements.
+Forge Local Runtime needs a disciplined rule for when a new subsystem or shared surface is justified.
 
 ## Decision
 
-Forge Local Runtime is established as the constitutional and integration authority for the local service substrate of the Forge ecosystem.
+A split is justified only when a concern demonstrates distinct:
 
-It is a governance-first repository, not an implementation sink.
+- ownership
+- failure posture
+- control language
+- schema needs
+- observability constraints
+- anti-drift value
+- repeated cross-service reuse
+
+No new subsystem may be created for naming symmetry, aesthetic completeness, or speculative future convenience alone.
 
 ## Consequences
 
-- Runtime doctrine can be stabilized independently of service implementation.
-- Boundary lines become easier to test and audit.
-- Cross-service control language can be defined once and reused.
-- Implementation must not outrun doctrine, decisions, schemas, and anti-drift surfaces.
+- The runtime stays bounded.
+- New repos, modules, or services need explicit architectural justification.
+- Anti-monolith discipline is preserved without fragmenting into theater.
+- Boundary reviews must evaluate whether a proposed split is real or cosmetic.

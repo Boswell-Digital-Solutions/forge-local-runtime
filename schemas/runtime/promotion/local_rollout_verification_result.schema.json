@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runtime.local_rollout_verification_result.v1",
+  "title": "runtime.local_rollout_verification_result.v1",
+  "description": "Bounded post-rollout verification result for a governed local runtime improvement.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "envelope_type",
+    "envelope_version",
+    "producer_version",
+    "runtime_bundle_id",
+    "runtime_bundle_version",
+    "fleet_member_id",
+    "service",
+    "proposal_id",
+    "rollout_cohort",
+    "expected_gain",
+    "observed_outcome",
+    "regression_detected",
+    "rollback_recommended",
+    "observed_at",
+    "dedupe_key",
+    "retention_class"
+  ],
+  "properties": {
+    "envelope_type": {
+      "const": "local_rollout_verification_result"
+    },
+    "envelope_version": {
+      "const": "v1"
+    },
+    "producer_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_bundle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_bundle_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fleet_member_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "service": {
+      "type": "string",
+      "enum": [
+        "df_local_foundation",
+        "neuronforge_local",
+        "cortex",
+        "fa_local"
+      ]
+    },
+    "proposal_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rollout_cohort": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "expected_gain": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "observed_outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome_direction",
+        "summary"
+      ],
+      "properties": {
+        "outcome_direction": {
+          "type": "string",
+          "enum": [
+            "improved",
+            "worsened",
+            "unchanged",
+            "mixed"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "magnitude": {
+          "type": "number"
+        }
+      }
+    },
+    "regression_detected": {
+      "type": "boolean"
+    },
+    "rollback_recommended": {
+      "type": "boolean"
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dedupe_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "retention_class": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "E"]
+    },
+    "verification_result_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "service_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "service_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "app_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "app_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "app_mode": {
+      "type": "string",
+      "enum": ["local", "hybrid", "cloud-enabled"]
+    },
+    "environment_class": {
+      "type": "string",
+      "enum": ["dev", "internal", "canary", "public"]
+    },
+    "platform_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "os_family": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hardware_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "first_observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "promotion_basis": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 500
+    }
+  }
+}

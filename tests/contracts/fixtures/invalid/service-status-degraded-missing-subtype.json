@@ -1,0 +1,7 @@
+{
+  "service_id": "cortex",
+  "service_class": "file_intelligence",
+  "state": "degraded",
+  "operator_visible_message": "Cortex is degraded but subtype is missing.",
+  "last_updated_at": "2026-03-18T12:00:00Z"
+}

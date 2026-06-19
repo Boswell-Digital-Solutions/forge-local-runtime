@@ -1,23 +1,32 @@
-# ADR 0006 — Project Framing
+# ADR 0006 — No Authority Surfaces
 
 ## Status
 Accepted
 
 ## Context
 
-Forge Local Runtime needs to exist as a standalone governance-and-contracts authority repository rather than remaining implicit inside broader Forge planning.
+The local runtime includes services that prepare, validate, execute, persist, and report.
 
-The local runtime is already a distinct architecture layer with its own doctrine, trust boundaries, degraded-state posture, handoff rules, and anti-drift requirements.
+Those roles can accidentally accumulate authority if candidate outputs, diagnostics, coordination functions, or persistence layers are allowed to become canonical decision surfaces.
 
 ## Decision
 
-Forge Local Runtime is established as the constitutional and integration authority for the local service substrate of the Forge ecosystem.
+Forge Local Runtime must not create hidden authority surfaces.
 
-It is a governance-first repository, not an implementation sink.
+No governed service may silently become the final authority for:
+
+- semantic interpretation
+- business truth
+- workflow truth
+- autonomous decision loops
+- inferred acceptance
+- silent candidate promotion
+
+Authority must remain explicit, externalized, and intentionally assigned.
 
 ## Consequences
 
-- Runtime doctrine can be stabilized independently of service implementation.
-- Boundary lines become easier to test and audit.
-- Cross-service control language can be defined once and reused.
-- Implementation must not outrun doctrine, decisions, schemas, and anti-drift surfaces.
+- Candidate outputs remain candidates until explicitly promoted elsewhere.
+- Service coordination does not equal service authority.
+- Runtime artifacts must distinguish support, execution, reporting, and authority.
+- New abstractions must be rejected if they imply hidden authority accumulation.

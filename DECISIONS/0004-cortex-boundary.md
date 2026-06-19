@@ -1,23 +1,27 @@
-# ADR 0004 — Project Framing
+# ADR 0004 — Cortex Boundary
 
 ## Status
 Accepted
 
 ## Context
 
-Forge Local Runtime needs to exist as a standalone governance-and-contracts authority repository rather than remaining implicit inside broader Forge planning.
+Cortex is the local file-intelligence and retrieval-preparation boundary in the runtime layer.
 
-The local runtime is already a distinct architecture layer with its own doctrine, trust boundaries, degraded-state posture, handoff rules, and anti-drift requirements.
+Its value comes from disciplined scope:
+intake, syntax-level extraction, structure, packaging, retrieval preparation, and truthful operational reporting.
+
+The major risk is drift into semantic interpretation, workflow control, generic ETL, or broad content-observation power.
 
 ## Decision
 
-Forge Local Runtime is established as the constitutional and integration authority for the local service substrate of the Forge ecosystem.
+Cortex is constrained to syntax-before-semantics file intelligence and retrieval-preparation support.
 
-It is a governance-first repository, not an implementation sink.
+Cortex may extract structure, package handoff artifacts, and report bounded operational truth about its own surfaces.
+Cortex must not become semantic authority, workflow authority, generic ETL infrastructure, or surveillance-by-default diagnostics infrastructure.
 
 ## Consequences
 
-- Runtime doctrine can be stabilized independently of service implementation.
-- Boundary lines become easier to test and audit.
-- Cross-service control language can be defined once and reused.
-- Implementation must not outrun doctrine, decisions, schemas, and anti-drift surfaces.
+- Syntax and semantics remain constitutionally separated.
+- Cortex may support downstream systems without controlling them.
+- Observation and diagnostics must remain privacy-preserving and explicitly scoped.
+- Reverse signaling from downstream systems must remain minimal and anti-orchestration in posture.
