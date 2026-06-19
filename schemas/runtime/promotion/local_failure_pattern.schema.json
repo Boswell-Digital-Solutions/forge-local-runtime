@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runtime.local_failure_pattern.v1",
+  "title": "runtime.local_failure_pattern.v1",
+  "description": "Bounded repeated local runtime failure pattern eligible for governed fleet-learning promotion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "envelope_type",
+    "envelope_version",
+    "producer_version",
+    "runtime_bundle_id",
+    "runtime_bundle_version",
+    "fleet_member_id",
+    "service",
+    "failure_pattern_type",
+    "frequency_window",
+    "occurrence_count",
+    "severity",
+    "affected_contract_or_capability",
+    "supporting_examples",
+    "observed_at",
+    "dedupe_key",
+    "retention_class"
+  ],
+  "properties": {
+    "envelope_type": {
+      "const": "local_failure_pattern"
+    },
+    "envelope_version": {
+      "const": "v1"
+    },
+    "producer_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_bundle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_bundle_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fleet_member_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "service": {
+      "type": "string",
+      "enum": [
+        "df_local_foundation",
+        "neuronforge_local",
+        "cortex",
+        "fa_local"
+      ]
+    },
+    "failure_pattern_type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "pattern": "^[a-z0-9_./-]+$"
+    },
+    "frequency_window": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "occurrence_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "critical"
+      ]
+    },
+    "affected_contract_or_capability": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "supporting_examples": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "example_id",
+          "reason_class",
+          "observed_at"
+        ],
+        "properties": {
+          "example_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason_class": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": "^[a-z0-9_./-]+$"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 240
+          }
+        }
+      }
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dedupe_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "retention_class": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "E"]
+    },
+    "pattern_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "service_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "service_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "app_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "app_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "app_mode": {
+      "type": "string",
+      "enum": ["local", "hybrid", "cloud-enabled"]
+    },
+    "environment_class": {
+      "type": "string",
+      "enum": ["dev", "internal", "canary", "public"]
+    },
+    "platform_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "os_family": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hardware_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "first_observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "promotion_basis": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 500
+    }
+  }
+}

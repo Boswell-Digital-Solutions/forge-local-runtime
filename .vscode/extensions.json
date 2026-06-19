@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "ckolkman.vscode-postgres",
+        "ms-python.python"
+    ]
+}

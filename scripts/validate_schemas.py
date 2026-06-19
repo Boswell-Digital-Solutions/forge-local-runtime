@@ -1,73 +1,90 @@
 #!/usr/bin/env python3
-"""Validate Forge Local Runtime JSON Schemas against their declared drafts.
-
-Forge Local Runtime owns shared schemas and a validation posture (see README
-and BOUNDARIES). This harness enforces that posture: every *populated* schema
-under ``schemas/`` must be well-formed JSON and a valid JSON Schema. Empty stub
-files are reported as pending (not yet authored) and do not fail the gate, so
-the check grows with the repo as schemas are filled in.
-
-Exit codes:
-  0 — all populated schemas are well-formed (empty stubs allowed, reported)
-  1 — one or more populated schemas are malformed JSON or invalid schemas
-"""
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
+from typing import Any
 
-from jsonschema.exceptions import SchemaError
-from jsonschema.validators import validator_for
+from jsonschema import Draft202012Validator
 
-SCHEMA_DIR = Path(__file__).resolve().parents[1] / "schemas"
+
+ROOT = Path(__file__).resolve().parent.parent
+SCHEMAS_DIR = ROOT / "schemas"
+TESTS_DIR = ROOT / "tests"
+
+
+def load_json(path: Path) -> Any:
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def validate_file(instance_path: Path, schema_path: Path) -> list[str]:
+    schema = load_json(schema_path)
+    instance = load_json(instance_path)
+
+    validator = Draft202012Validator(schema)
+
+    errors = sorted(validator.iter_errors(instance), key=lambda e: list(e.path))
+    messages: list[str] = []
+
+    for error in errors:
+        loc = ".".join(str(part) for part in error.path) or "<root>"
+        messages.append(f"{instance_path}: {loc}: {error.message}")
+
+    return messages
+
+
+def expect_valid(instance_path: Path, schema_path: Path) -> list[str]:
+    return validate_file(instance_path, schema_path)
+
+
+def expect_invalid(instance_path: Path, schema_path: Path) -> list[str]:
+    errors = validate_file(instance_path, schema_path)
+    if errors:
+        return []
+    return [f"{instance_path}: expected invalid but validation passed"]
 
 
 def main() -> int:
-    schema_files = sorted(SCHEMA_DIR.glob("*.schema.json"))
-    if not schema_files:
-        print(f"ERROR: no *.schema.json files found under {SCHEMA_DIR}")
-        return 1
+    failures: list[str] = []
 
-    validated: list[str] = []
-    pending: list[str] = []
-    failures: list[tuple[str, str]] = []
+    valid_cases = [
+        (
+            TESTS_DIR / "contracts/fixtures/valid/service-status-cortex-degraded.json",
+            SCHEMAS_DIR / "service-status.schema.json",
+        ),
+        (
+            TESTS_DIR / "observability/fixtures/forensic-event-minimized.json",
+            SCHEMAS_DIR / "forensic-event-envelope.schema.json",
+        ),
+    ]
 
-    for path in schema_files:
-        raw = path.read_text(encoding="utf-8").strip()
-        if not raw:
-            pending.append(path.name)
-            continue
-        try:
-            schema = json.loads(raw)
-        except json.JSONDecodeError as exc:
-            failures.append((path.name, f"invalid JSON: {exc}"))
-            continue
-        validator_cls = validator_for(schema)
-        try:
-            validator_cls.check_schema(schema)
-        except SchemaError as exc:
-            failures.append((path.name, f"invalid JSON Schema: {exc.message}"))
-            continue
-        validated.append(path.name)
+    invalid_cases = [
+        (
+            TESTS_DIR / "contracts/fixtures/invalid/service-status-degraded-missing-subtype.json",
+            SCHEMAS_DIR / "service-status.schema.json",
+        ),
+        (
+            TESTS_DIR / "observability/fixtures/forensic-event-content-without-reference.json",
+            SCHEMAS_DIR / "forensic-event-envelope.schema.json",
+        ),
+    ]
 
-    print(f"schemas dir: {SCHEMA_DIR}")
-    print(f"  validated: {len(validated)}")
-    for name in validated:
-        print(f"    ✓ {name}")
-    print(f"  pending (empty stub, not yet authored): {len(pending)}")
-    for name in pending:
-        print(f"    · {name}")
+    for instance_path, schema_path in valid_cases:
+        failures.extend(expect_valid(instance_path, schema_path))
+
+    for instance_path, schema_path in invalid_cases:
+        failures.extend(expect_invalid(instance_path, schema_path))
 
     if failures:
-        print(f"  FAILURES: {len(failures)}")
-        for name, why in failures:
-            print(f"    ✗ {name}: {why}")
+        print("VALIDATION FAILED")
+        for failure in failures:
+            print(f"- {failure}")
         return 1
 
-    print("schema validation: PASS")
+    print("VALIDATION PASSED")
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

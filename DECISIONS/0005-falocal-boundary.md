@@ -1,23 +1,28 @@
-# ADR 0005 — Project Framing
+# ADR 0005 — FA Local Boundary
 
 ## Status
 Accepted
 
 ## Context
 
-Forge Local Runtime needs to exist as a standalone governance-and-contracts authority repository rather than remaining implicit inside broader Forge planning.
+FA Local is the governed local execution boundary in the runtime layer.
 
-The local runtime is already a distinct architecture layer with its own doctrine, trust boundaries, degraded-state posture, handoff rules, and anti-drift requirements.
+Its purpose is not open-ended autonomy.
+Its purpose is trusted, policy-gated, capability-admitted execution under explicit constraints.
+
+The major risk is drift into hidden orchestration, semantic authority, durable memory ownership, or broad local-agent behavior.
 
 ## Decision
 
-Forge Local Runtime is established as the constitutional and integration authority for the local service substrate of the Forge ecosystem.
+FA Local is constrained to requester-trust-gated, policy-before-execution local execution.
 
-It is a governance-first repository, not an implementation sink.
+FA Local may validate requests, resolve requester trust, evaluate policy artifacts, admit capabilities, validate bounded execution plans, coordinate approved execution routes, and emit truthful execution-state reporting.
+
+FA Local must not become app semantic authority, durable semantic memory, hidden planner, or open-ended autonomous agent substrate.
 
 ## Consequences
 
-- Runtime doctrine can be stabilized independently of service implementation.
-- Boundary lines become easier to test and audit.
-- Cross-service control language can be defined once and reused.
-- Implementation must not outrun doctrine, decisions, schemas, and anti-drift surfaces.
+- Execution remains subordinate to trust and policy.
+- Capability access remains explicit and governable.
+- Side effects remain bounded and reviewable.
+- FA Local is prevented from silently centralizing authority.

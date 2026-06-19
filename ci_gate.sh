@@ -93,7 +93,9 @@ echo ""
 # ── Gate 2: local schema validation posture ──────────────────────────────────
 echo "=== Gate 2: local schema validation ==="
 cd "$SCRIPT_DIR"
-"$PYTHON_LOCAL" scripts/validate_schemas.py
+# Schema-file well-formedness gate. The instance-validation harness
+# (scripts/validate_schemas.py, wired into the Makefile) is a separate concern.
+"$PYTHON_LOCAL" scripts/validate_schema_wellformedness.py
 
 echo ""
 echo "Forge Local Runtime CI gate: PASSED"

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boswelldigitalsolutions.com/schemas/forge-local-runtime/handoff-envelope.schema.json",
+  "title": "Forge Local Runtime Handoff Envelope",
+  "description": "Bounded reverse signaling and handoff result envelope for Forge Local Runtime services.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "handoff_id",
+    "source_service_id",
+    "target_service_id",
+    "status",
+    "operator_visible_message",
+    "last_updated_at"
+  ],
+  "properties": {
+    "handoff_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "source_service_id": {
+      "type": "string",
+      "enum": [
+        "df-local-foundation",
+        "neuronforge-local",
+        "cortex",
+        "fa-local"
+      ]
+    },
+    "target_service_id": {
+      "type": "string",
+      "enum": [
+        "df-local-foundation",
+        "neuronforge-local",
+        "cortex",
+        "fa-local"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "rejected_reason_code",
+        "re_prep_required",
+        "stale",
+        "integrity_failed"
+      ]
+    },
+    "reason_code": {
+      "type": "string",
+      "enum": [
+        "schema_invalid",
+        "integrity_failed",
+        "stale_input",
+        "missing_required_structure",
+        "policy_denied",
+        "unsupported_route",
+        "review_required",
+        "privacy_scope_violation"
+      ]
+    },
+    "operator_visible_message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "details_redacted": {
+      "type": "boolean",
+      "default": true
+    },
+    "last_updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": { "const": "rejected_reason_code" }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["reason_code"]
+      }
+    }
+  ]
+}

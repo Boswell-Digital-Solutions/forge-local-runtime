@@ -1,2 +1,7 @@
+__pycache__/
+.venv/
+.pytest_cache/
+context-bundle.md
+
 # forge-contract-core CI gate evidence reports
 /reports/
