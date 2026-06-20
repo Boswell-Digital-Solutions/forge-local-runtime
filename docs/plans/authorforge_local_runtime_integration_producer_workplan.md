@@ -27,9 +27,14 @@ service state is reported as `not_ready` / `unavailable`, never silently omitted
 
 ---
 
-## Ticket T1 — Runtime service-status aggregator (service matrix)
+## Ticket T1 — Runtime service-status aggregator (service matrix) — **implemented**
 
 Satisfies: V1 §2.1 (RuntimeStatusCard service matrix), §2.4 (DF Local visibility).
+
+Landed: `schemas/runtime-service-matrix.schema.json`, `runtime_status/aggregator.py`
+(`build_service_matrix`), fixtures + `validate_schemas.py` wiring, and
+`tests/test_runtime_status_aggregator.py`. Missing services are filled fail-closed
+as `unavailable` / `not_ready`; unknown/duplicate `service_id` is rejected.
 
 **Builds on:** `schemas/service-status.schema.json`, `schemas/readiness-summary.schema.json`
 (already carries `service_id`, `readiness_class`, `blocking_reasons`).
@@ -53,9 +58,13 @@ Satisfies: V1 §2.1 (RuntimeStatusCard service matrix), §2.4 (DF Local visibili
 
 ---
 
-## Ticket T2 — Runtime pressure indicator (Low / Elevated / Critical)
+## Ticket T2 — Runtime pressure indicator (Low / Elevated / Critical) — **implemented**
 
 Satisfies: V1 §2.3.
+
+Landed: `schemas/runtime-pressure.schema.json` and `runtime_status/aggregator.py`
+(`derive_pressure`) — a pure, deterministic rollup of the T1 matrix into three
+classes with per-service contributing reasons. Covered by the aggregator tests.
 
 **Builds on:** `schemas/runtime/promotion/local_state_event.schema.json` (4-level
 `severity`: low/moderate/high/critical) and the T1 matrix.

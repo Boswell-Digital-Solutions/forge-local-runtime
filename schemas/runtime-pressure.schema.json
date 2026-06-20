@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boswelldigitalsolutions.com/schemas/forge-local-runtime/runtime-pressure.schema.json",
+  "title": "Forge Local Runtime Pressure Indicator",
+  "description": "Bounded three-class runtime pressure indicator derived deterministically from a service-matrix snapshot. Not a metrics dashboard: exactly three classes, each justified by its contributing service signals.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pressure_version",
+    "pressure_class",
+    "contributing_reasons",
+    "generated_at"
+  ],
+  "properties": {
+    "pressure_version": {
+      "const": "v1"
+    },
+    "pressure_class": {
+      "type": "string",
+      "enum": [
+        "low",
+        "elevated",
+        "critical"
+      ]
+    },
+    "contributing_reasons": {
+      "type": "array",
+      "description": "The per-service signals that raised pressure above low. Empty when pressure_class is low.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "service_id",
+          "signal",
+          "raised_to"
+        ],
+        "properties": {
+          "service_id": {
+            "type": "string",
+            "enum": [
+              "df-local-foundation",
+              "neuronforge-local",
+              "cortex",
+              "fa-local"
+            ]
+          },
+          "signal": {
+            "type": "string",
+            "enum": [
+              "not_ready",
+              "unavailable",
+              "denied",
+              "integrity_failed",
+              "dependency_unavailable",
+              "degraded",
+              "stale",
+              "partial_success",
+              "review_required",
+              "waiting_explicit_approval",
+              "ready_with_constraints"
+            ]
+          },
+          "raised_to": {
+            "type": "string",
+            "enum": [
+              "elevated",
+              "critical"
+            ]
+          }
+        }
+      }
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "details_redacted": {
+      "type": "boolean",
+      "default": true
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "pressure_class": { "const": "low" } },
+        "required": ["pressure_class"]
+      },
+      "then": {
+        "properties": {
+          "contributing_reasons": { "maxItems": 0 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "pressure_class": { "enum": ["elevated", "critical"] } },
+        "required": ["pressure_class"]
+      },
+      "then": {
+        "properties": {
+          "contributing_reasons": { "minItems": 1 }
+        }
+      }
+    }
+  ]
+}
