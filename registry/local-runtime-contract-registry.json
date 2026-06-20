@@ -104,6 +104,50 @@
       "posture": "governance",
       "maturity": "implemented",
       "degraded_behavior": "Static catalog; maturity field marks planned-vs-served so consumers cannot silently bind to unserved contracts."
+    },
+    {
+      "seam_id": "df-local-foundation/nil-schema",
+      "description": "NIL v2 append-only transaction log + current-state cache + queues, with rebuild equivalence.",
+      "owner": "df-local-foundation",
+      "consumers": ["authorforge"],
+      "contract_id": "authorforge.nil_transactions",
+      "contract_version": "0003",
+      "posture": "authority",
+      "maturity": "implemented",
+      "degraded_behavior": "Authority invariants enforced as CHECK constraints (manuscript_text never Tier A, non-metadata Tier A needs experimental, heuristic needs confidence/receipt); current-state rebuildable from the log."
+    },
+    {
+      "seam_id": "fa-local/nil-narrative-commit",
+      "description": "NIL Writer Authority Mode policy + narrative-commit capability; canon commits admit/review/deny per tier.",
+      "owner": "fa-local",
+      "consumers": ["authorforge"],
+      "contract_id": "authorforge_nil.narrative-commit",
+      "contract_version": "1",
+      "posture": "authority",
+      "maturity": "implemented",
+      "degraded_behavior": "Expressed on the admission gate: derived_metadata auto outside strict, candidate->review, accepted->explicit approval, manuscript_text denied (never a committable capability)."
+    },
+    {
+      "seam_id": "neuronforge-local/nil-canon-candidate",
+      "description": "NIL single structured extraction pass: candidate-only canon extraction, receipted.",
+      "owner": "neuronforge-local",
+      "consumers": ["authorforge"],
+      "contract_id": "extract.canon_candidates.scene.v1",
+      "contract_version": "1",
+      "posture": "candidate",
+      "maturity": "implemented",
+      "degraded_behavior": "Candidate-only (never accepted canon); fail-closed; provider receipt + evidence spans required for heuristic extraction."
+    },
+    {
+      "seam_id": "cortex/nil-evidence-anchors",
+      "description": "NIL block identity + evidence-anchor carriage on the Cortex handoff envelope.",
+      "owner": "cortex",
+      "consumers": ["authorforge", "neuronforge-local"],
+      "contract_id": "cortex.handoff-envelope.block_anchors",
+      "contract_version": "1",
+      "posture": "candidate",
+      "maturity": "implemented",
+      "degraded_behavior": "Anchors are syntax-only provenance; absent/fuzzy anchors degrade to derived_metadata-until-confirmed, never canonical."
     }
   ]
 }
