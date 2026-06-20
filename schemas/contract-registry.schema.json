@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boswelldigitalsolutions.com/schemas/forge-local-runtime/contract-registry.schema.json",
+  "title": "Forge Local Runtime Contract Registry",
+  "description": "Governance catalog of the live local-runtime seams between services and their consumers. One artifact answering: what contract is actually live between whom, at what maturity, with what posture and degraded behavior.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "registry_version",
+    "generated_at",
+    "seams"
+  ],
+  "properties": {
+    "registry_version": {
+      "const": "v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "seams": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "seam_id",
+          "owner",
+          "consumers",
+          "contract_id",
+          "contract_version",
+          "posture",
+          "maturity",
+          "degraded_behavior"
+        ],
+        "properties": {
+          "seam_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": "^[a-z0-9_./-]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "owner": {
+            "type": "string",
+            "description": "The producing authority for this seam.",
+            "enum": [
+              "df-local-foundation",
+              "neuronforge-local",
+              "cortex",
+              "fa-local",
+              "forge-local-runtime"
+            ]
+          },
+          "consumers": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[a-z0-9_.-]+$"
+            },
+            "uniqueItems": true
+          },
+          "contract_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "contract_version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "posture": {
+            "type": "string",
+            "description": "candidate = non-authoritative output requiring downstream review; authority = owns the named truth; observational = truthful status only; governance = control/catalog surface.",
+            "enum": [
+              "candidate",
+              "authority",
+              "observational",
+              "governance"
+            ]
+          },
+          "maturity": {
+            "type": "string",
+            "enum": [
+              "implemented",
+              "partial",
+              "planned"
+            ]
+          },
+          "degraded_behavior": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400
+          }
+        }
+      }
+    }
+  }
+}

@@ -27,9 +27,14 @@ service state is reported as `not_ready` / `unavailable`, never silently omitted
 
 ---
 
-## Ticket T1 — Runtime service-status aggregator (service matrix)
+## Ticket T1 — Runtime service-status aggregator (service matrix) — **implemented**
 
 Satisfies: V1 §2.1 (RuntimeStatusCard service matrix), §2.4 (DF Local visibility).
+
+Landed: `schemas/runtime-service-matrix.schema.json`, `runtime_status/aggregator.py`
+(`build_service_matrix`), fixtures + `validate_schemas.py` wiring, and
+`tests/test_runtime_status_aggregator.py`. Missing services are filled fail-closed
+as `unavailable` / `not_ready`; unknown/duplicate `service_id` is rejected.
 
 **Builds on:** `schemas/service-status.schema.json`, `schemas/readiness-summary.schema.json`
 (already carries `service_id`, `readiness_class`, `blocking_reasons`).
@@ -53,9 +58,13 @@ Satisfies: V1 §2.1 (RuntimeStatusCard service matrix), §2.4 (DF Local visibili
 
 ---
 
-## Ticket T2 — Runtime pressure indicator (Low / Elevated / Critical)
+## Ticket T2 — Runtime pressure indicator (Low / Elevated / Critical) — **implemented**
 
 Satisfies: V1 §2.3.
+
+Landed: `schemas/runtime-pressure.schema.json` and `runtime_status/aggregator.py`
+(`derive_pressure`) — a pure, deterministic rollup of the T1 matrix into three
+classes with per-service contributing reasons. Covered by the aggregator tests.
 
 **Builds on:** `schemas/runtime/promotion/local_state_event.schema.json` (4-level
 `severity`: low/moderate/high/critical) and the T1 matrix.
@@ -77,9 +86,14 @@ Satisfies: V1 §2.3.
 
 ---
 
-## Ticket T3 — Local Runtime Contract Registry (seam catalog)
+## Ticket T3 — Local Runtime Contract Registry (seam catalog) — **implemented**
 
 Satisfies: V1 §0.1.
+
+Landed: `schemas/contract-registry.schema.json`,
+`registry/local-runtime-contract-registry.json` (seeded with live seams incl. the
+scene_window drift record), and `tests/test_contract_registry.py`. Validated via
+`scripts/validate_schemas.py`.
 
 **Builds on:** `schemas/runtime-contract.schema.json` (seam envelope with
 `source_service_id`, `target_service_id`, `capability_id`, `contract_class`) and
@@ -106,9 +120,14 @@ Satisfies: V1 §0.1.
 
 ---
 
-## Ticket T4 — Cross-service boundary assertions in the CI gate
+## Ticket T4 — Cross-service boundary assertions in the CI gate — **implemented**
 
 Satisfies: V1 §0.2 (Boundary Assertion Test Plan), at the cross-service tier.
+
+Landed: `scripts/check_contract_boundaries.py` (registry posture invariants +
+orchestration-field firewall on the shared schemas), wired into the Makefile
+`validate` target and `ci_gate.sh` as Gate 3, covered by
+`tests/test_contract_boundaries.py`.
 
 **Builds on:** `ci_gate.sh` (contract-core + schema-wellformedness) and the existing
 doctrine docs under `docs/doctrine/`.
@@ -130,9 +149,12 @@ doctrine docs under `docs/doctrine/`.
 
 ---
 
-## Ticket T5 — Consumer read-contract for AuthorForge
+## Ticket T5 — Consumer read-contract for AuthorForge — **implemented**
 
 Ties T1/T2/T3 to the consumer so AuthorForge renders rather than recomputes.
+
+Landed: `docs/architecture/authorforge-runtime-status-read-contract.md`,
+cross-linked from `docs/architecture/runtime-control-surfaces.md`.
 
 **Deliverable:**
 - A short read-contract doc describing how AuthorForge's RuntimeStatusCard consumes

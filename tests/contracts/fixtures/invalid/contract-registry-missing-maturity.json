@@ -1,0 +1,15 @@
+{
+  "registry_version": "v1",
+  "generated_at": "2026-06-20T12:00:00Z",
+  "seams": [
+    {
+      "seam_id": "cortex/handoff-envelope",
+      "owner": "cortex",
+      "consumers": ["authorforge"],
+      "contract_id": "cortex.handoff-envelope",
+      "contract_version": "1",
+      "posture": "candidate",
+      "degraded_behavior": "Explicit transfer states; no silent failure."
+    }
+  ]
+}

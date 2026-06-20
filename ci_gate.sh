@@ -98,5 +98,10 @@ cd "$SCRIPT_DIR"
 "$PYTHON_LOCAL" scripts/validate_schema_wellformedness.py
 
 echo ""
+# ── Gate 3: cross-service contract boundary assertions ───────────────────────
+echo "=== Gate 3: contract boundary assertions ==="
+"$PYTHON_LOCAL" scripts/check_contract_boundaries.py
+
+echo ""
 echo "Forge Local Runtime CI gate: PASSED"
 echo "  contract core gate report: $GATE_REPORT"
