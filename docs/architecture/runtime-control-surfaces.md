@@ -93,6 +93,17 @@ Runtime control surfaces align with:
 - `schemas/readiness-summary.schema.json`
 - `schemas/forensic-event-envelope.schema.json`
 - `schemas/runtime-contract.schema.json`
+- `schemas/runtime-service-matrix.schema.json`
+- `schemas/runtime-pressure.schema.json`
+- `schemas/contract-registry.schema.json`
+
+## Consumer read contract
+
+The aggregated status surfaces (service matrix, pressure indicator, contract
+registry) are produced here and consumed by AuthorForge's RuntimeStatusCard. The
+read contract — surface shapes, degraded semantics, and the rule that the consumer
+renders rather than re-aggregates — is documented in
+[`authorforge-runtime-status-read-contract.md`](./authorforge-runtime-status-read-contract.md).
 
 ## Governing question
 

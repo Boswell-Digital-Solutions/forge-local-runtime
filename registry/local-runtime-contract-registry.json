@@ -1,0 +1,109 @@
+{
+  "registry_version": "v1",
+  "generated_at": "2026-06-20T12:00:00Z",
+  "seams": [
+    {
+      "seam_id": "cortex/handoff-envelope",
+      "description": "Cortex transfer-truth envelope for prepared import/retrieval artifacts.",
+      "owner": "cortex",
+      "consumers": ["authorforge"],
+      "contract_id": "cortex.handoff-envelope",
+      "contract_version": "1",
+      "posture": "candidate",
+      "maturity": "implemented",
+      "degraded_behavior": "Explicit transfer states: ready_for_transfer, denied, stale, integrity_failed, re_prep_required. No silent failure; orchestration fields forbidden.",
+      "notes": "Carries import-stage truth AuthorForge V1 Phase 4 wants; producer side is document-and-version, not build."
+    },
+    {
+      "seam_id": "cortex/gnat-semantic-handoff",
+      "description": "Cortex-to-NeuronForge semantic candidate handoff (non-canonical).",
+      "owner": "cortex",
+      "consumers": ["neuronforge-local"],
+      "contract_id": "GnatSemanticHandoff.v1",
+      "contract_version": "1",
+      "posture": "candidate",
+      "maturity": "implemented",
+      "degraded_behavior": "Candidate-only; never canonical. Absent semantic lane degrades to no-handoff."
+    },
+    {
+      "seam_id": "neuronforge/analyze-continuity-adjacent-scene",
+      "description": "Live bounded two-scene continuity/progression analysis.",
+      "owner": "neuronforge-local",
+      "consumers": ["authorforge"],
+      "contract_id": "analyze.continuity.adjacent_scene.v1",
+      "contract_version": "1.0",
+      "posture": "candidate",
+      "maturity": "implemented",
+      "degraded_behavior": "STRICT_STRUCTURED, fail_closed: schema failure or missing evidence is a hard failure, never prose fallback.",
+      "notes": "This is the continuity seam consumers must bind to today."
+    },
+    {
+      "seam_id": "neuronforge/analyze-continuity-scene-window",
+      "description": "Planned broader scene-window continuity contract (distinct scope from adjacent_scene).",
+      "owner": "neuronforge-local",
+      "consumers": ["authorforge"],
+      "contract_id": "analyze.continuity.scene_window.v1",
+      "contract_version": "1",
+      "posture": "candidate",
+      "maturity": "planned",
+      "degraded_behavior": "Not yet served. Requests are not satisfied as adjacent-scene work.",
+      "notes": "Drift record: AuthorForge's AI contract adapter currently binds to this planned id; it should bind to analyze.continuity.adjacent_scene.v1 until this is promoted."
+    },
+    {
+      "seam_id": "fa-local/gnat-dispatch-envelope",
+      "description": "Cortex-to-FA-Local bounded GNAT syntax-extraction dispatch under policy/capability checks.",
+      "owner": "fa-local",
+      "consumers": ["cortex"],
+      "contract_id": "GnatDispatchEnvelope.v1",
+      "contract_version": "1",
+      "posture": "candidate",
+      "maturity": "implemented",
+      "degraded_behavior": "Fail-closed admission: unknown requester/policy/capability is denied with a structured DenialGuard."
+    },
+    {
+      "seam_id": "fa-local/admission-gate",
+      "description": "Callable local-agent admission + review-package handoff gate.",
+      "owner": "fa-local",
+      "consumers": ["authorforge", "forge-agents-local"],
+      "contract_id": "fa-local.admission-gate",
+      "contract_version": "0",
+      "posture": "authority",
+      "maturity": "planned",
+      "degraded_behavior": "Gate logic exists (three-layer admission, posture resolution, review-package enforcement) but is library/CLI only; no callable daemon/API yet.",
+      "notes": "AuthorForge V1 Track A/B treats this as future; the design is built, only a callable seam is missing."
+    },
+    {
+      "seam_id": "forge-local-runtime/service-matrix",
+      "description": "Aggregated four-service status snapshot.",
+      "owner": "forge-local-runtime",
+      "consumers": ["authorforge"],
+      "contract_id": "runtime-service-matrix",
+      "contract_version": "v1",
+      "posture": "observational",
+      "maturity": "implemented",
+      "degraded_behavior": "Non-reporting services are represented fail-closed as unavailable/not_ready, never omitted."
+    },
+    {
+      "seam_id": "forge-local-runtime/pressure-indicator",
+      "description": "Deterministic low/elevated/critical runtime pressure derived from the service matrix.",
+      "owner": "forge-local-runtime",
+      "consumers": ["authorforge"],
+      "contract_id": "runtime-pressure",
+      "contract_version": "v1",
+      "posture": "observational",
+      "maturity": "implemented",
+      "degraded_behavior": "Pure function of a matrix snapshot; no hidden state. Absent matrix yields no indicator."
+    },
+    {
+      "seam_id": "forge-local-runtime/contract-registry",
+      "description": "This governance catalog of live local-runtime seams.",
+      "owner": "forge-local-runtime",
+      "consumers": ["authorforge", "operators"],
+      "contract_id": "contract-registry",
+      "contract_version": "v1",
+      "posture": "governance",
+      "maturity": "implemented",
+      "degraded_behavior": "Static catalog; maturity field marks planned-vs-served so consumers cannot silently bind to unserved contracts."
+    }
+  ]
+}
