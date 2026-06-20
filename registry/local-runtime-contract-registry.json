@@ -68,9 +68,9 @@
       "contract_id": "fa-local.admission-gate",
       "contract_version": "0",
       "posture": "authority",
-      "maturity": "planned",
-      "degraded_behavior": "Gate logic exists (three-layer admission, posture resolution, review-package enforcement) but is library/CLI only; no callable daemon/API yet.",
-      "notes": "AuthorForge V1 Track A/B treats this as future; the design is built, only a callable seam is missing."
+      "maturity": "partial",
+      "degraded_behavior": "Callable end-to-end via AdmissionService::admit and the fa-local-run 'admit' CLI (three-layer admission, posture resolution, review-package emission). Still library/CLI only; no daemon/API/persistence.",
+      "notes": "AuthorForge V1 Track A/B treated this as future; the callable seam now exists (CLI + library facade), so it is partial rather than planned. A daemon/API remains deferred by fa_local doctrine."
     },
     {
       "seam_id": "forge-local-runtime/service-matrix",
