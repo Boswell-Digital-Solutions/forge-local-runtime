@@ -1,0 +1,13 @@
+{
+  "service_id": "df-local-foundation",
+  "service_class": "substrate",
+  "state": "degraded",
+  "degraded_subtype": "migration_blocked",
+  "readiness_summary": {
+    "readiness_class": "degraded",
+    "summary": "A pending migration is blocking full readiness."
+  },
+  "operator_visible_message": "DF Local Foundation is degraded: a migration is blocked.",
+  "details_redacted": true,
+  "last_updated_at": "2026-06-20T11:59:50Z"
+}

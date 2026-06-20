@@ -15,6 +15,23 @@ the schemas, and the degraded semantics described here.
 | Pressure indicator | `schemas/runtime-pressure.schema.json` | `runtime_status.derive_pressure` |
 | Contract registry | `schemas/contract-registry.schema.json` | `registry/local-runtime-contract-registry.json` |
 
+## Producing a snapshot
+
+```bash
+python scripts/emit_runtime_status.py --status-dir <dir> [--out snapshot.json] [--pretty]
+```
+
+The tool reads each service's last-published `service-status` JSON from
+`--status-dir` (one file per service), composes the matrix, derives pressure, and
+prints `{ "service_matrix": ..., "pressure": ... }`. A runnable example lives at
+`examples/status-sample/` (only two services publish, so the other two render
+fail-closed and pressure is `critical`). The emitted snapshot is validated against
+its schemas before output — the tool never emits a non-conforming snapshot.
+
+A network transport (each service answering a live status probe) is a future seam:
+this repo does not invent service endpoints it does not own, so "live" means "live
+from whatever each service last published."
+
 ## Service matrix (`runtime-service-matrix`)
 
 - Always contains **exactly four** entries — `df-local-foundation`,

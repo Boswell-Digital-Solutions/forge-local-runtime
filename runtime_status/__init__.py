@@ -11,9 +11,12 @@ from .aggregator import (
     build_service_matrix,
     derive_pressure,
 )
+from .sources import CollectedStatuses, load_status_directory
 
 __all__ = [
     "CANONICAL_SERVICES",
     "build_service_matrix",
     "derive_pressure",
+    "CollectedStatuses",
+    "load_status_directory",
 ]
