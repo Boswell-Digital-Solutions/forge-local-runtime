@@ -1,0 +1,32 @@
+name: Repo Context Gate
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+jobs:
+  repo-context:
+    name: Repo Context Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Generate agent instructions
+        run: python3 scripts/generate_agent_instructions.py
+
+      - name: Confirm generated files are committed
+        run: git diff --exit-code -- AGENTS.md CLAUDE.md CODEX.md GEMINI.md
+
+      - name: Check agent instruction drift
+        run: python3 scripts/check_agent_instruction_drift.py
+
+      - name: Verify repo context
+        run: python3 scripts/verify_repo_context.py

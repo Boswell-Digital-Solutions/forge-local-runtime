@@ -1,0 +1,107 @@
+schema_version: "RepoManifest.v1"
+
+repo:
+  full_name: "Boswecw/forge-local-runtime"
+  local_name: "forge-local-runtime-master-reference"
+  package_name: "forge-local-runtime"
+  default_branch: "master"
+  repo_class: "local_runtime_governance"
+
+identity:
+  product_name: "Forge Local Runtime"
+  one_line: "Governance-first constitutional repository for the shared local service substrate of the Forge ecosystem."
+  authority_role: "local_runtime_doctrine_and_boundary_authority"
+
+owns:
+  - local-runtime doctrine
+  - cross-service boundaries
+  - service-only degraded-state language
+  - readiness and denial posture
+  - handoff rules
+  - privacy-preserving observability constraints
+  - shared schema posture for local support services
+
+does_not_own:
+  - destination application product UX
+  - Tauri application behavior
+  - local orchestrator execution
+  - implementation details of the four service repos
+  - cloud stack authority
+  - canonical business memory
+
+upstream_authorities:
+  forge_contract_core:
+    owns: "ecosystem-wide shared schemas and validators"
+  DataForge Local:
+    owns: "local operational memory, receipts, and syncable edge authority"
+  Forge_Command:
+    owns: "operator control surfaces and command-plane review"
+
+downstream_consumers:
+  - DF Local Foundation
+  - NeuronForge
+  - Cortex
+  - FA Local
+  - AuthorForge
+  - Forge_Command
+
+canonical_files:
+  - repo.manifest.yaml
+  - README.md
+  - SYSTEM.md
+  - ARCHITECTURE.md
+  - BOUNDARIES.md
+  - BUILD.md
+  - ROADMAP.md
+  - doc/FOLSYSTEM.md
+  - doc/system/_index.md
+  - Makefile
+
+generated_files:
+  - AGENTS.md
+  - CLAUDE.md
+  - CODEX.md
+  - GEMINI.md
+
+agent_edit_policy:
+  may_edit:
+    - docs/**
+    - doc/system/**
+    - schemas/**
+    - runtime_promotion/**
+    - tests/**
+    - scripts/**
+    - DECISIONS/**
+  must_not_edit_directly:
+    - AGENTS.md
+    - CLAUDE.md
+    - CODEX.md
+    - GEMINI.md
+  must_regenerate:
+    - AGENTS.md
+    - CLAUDE.md
+    - CODEX.md
+    - GEMINI.md
+
+verification:
+  required_identity_checks:
+    - repository_full_name
+    - local_directory_name
+    - package_name
+    - README title
+    - default_branch
+    - canonical_files_exist
+    - generated_instruction_hashes_match
+  test_commands:
+    - make validate
+  build_commands:
+    - bash doc/system/BUILD.sh
+  safety_rules:
+    - "Forge Local Runtime owns doctrine and boundary language, not implementation convenience."
+    - "Do not absorb DF Local Foundation, NeuronForge, Cortex, or FA Local implementation into this repo."
+    - "Local baseline must remain meaningful without cloud."
+    - "Cloud capability is additive, never a hidden baseline dependency."
+  llm_rules:
+    - "Start from the real repo root at /home/charlie/Forge/apps/public-app-local-support/forge-local-runtime-master-reference."
+    - "Operate on the default branch master; local main is a stale preserved branch."
+    - "Use this repo to clarify shared runtime doctrine, not to mutate service-local authority."

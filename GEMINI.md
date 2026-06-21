@@ -7,7 +7,7 @@ Manifest hash: sha256:28359db33cf6d537d3a2685a7d1d8f5e187117716973ea7c964970c9d1
 Receipt: receipts/repo-context/latest.json
 -->
 
-# CLAUDE.md - Forge Local Runtime Agent Instructions
+# GEMINI.md - Forge Local Runtime Agent Instructions
 
 ## Repo Identity
 
