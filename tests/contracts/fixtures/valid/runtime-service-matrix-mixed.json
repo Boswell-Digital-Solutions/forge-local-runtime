@@ -39,6 +39,16 @@
       "observation": "missing",
       "summary": "No status reported; treated as unavailable (fail-closed).",
       "last_updated_at": "2026-06-20T12:00:00Z"
+    },
+    {
+      "service_id": "bellows-local",
+      "service_class": "audio_io",
+      "state": "degraded",
+      "degraded_subtype": "unavailable_dependency_block",
+      "readiness_class": "degraded",
+      "observation": "observed",
+      "summary": "Bellows reachable but no audio capture/playback device is available.",
+      "last_updated_at": "2026-06-20T12:00:00Z"
     }
   ]
 }

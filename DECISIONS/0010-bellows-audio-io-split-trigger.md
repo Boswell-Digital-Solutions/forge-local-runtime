@@ -1,7 +1,17 @@
 # ADR 0010 — Bellows Audio-I/O Split Trigger
 
 ## Status
-Proposed (draft for review)
+Accepted (2026-06-24, runtime boundary authority).
+
+The roster edits below are applied: `bellows-local` is admitted to the `service_id`
+enums and a new `audio_io` `service_class` across `service-status`, `runtime-service-matrix`,
+`contract-registry`, and `forensic-event-envelope` schemas; the service matrix now requires
+all five services (fail-closed); `bellows-local` is registered in the boundary manifest
+(`audio_generation_authority` / `transcription_authority` / `playback_ux_authority` /
+`always_listening` are must-not-claim); capture and playback-transport seams are catalogued
+in the contract registry as `planned`; and BOUNDARIES.md / ARCHITECTURE.md carry the Bellows
+ownership and non-ownership lines. Implementation (the Bellows sidecar) lives in the service
+repos, not here.
 
 ## Context
 
@@ -76,5 +86,5 @@ playback transport/receipts. Nothing above the device/transport seam.
   receipt artifacts are `source_scope: local` and stay out of forge_contract_core (see the
   companion contract-classification note). Only a genuine cross-repo promotion seam would
   trigger an RFC.
-- **Boundary review owns the final call.** This ADR is a Proposed draft; acceptance and the
-  roster edits are reserved to the runtime boundary authority.
+- **Boundary review owns the final call.** Accepted by the runtime boundary authority on
+  2026-06-24; the roster and doctrine edits enumerated in the Status section are applied.

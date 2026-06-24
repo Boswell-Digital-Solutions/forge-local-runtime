@@ -1,0 +1,13 @@
+{
+  "service_id": "bellows-local",
+  "service_class": "audio_io",
+  "state": "degraded",
+  "degraded_subtype": "unavailable_dependency_block",
+  "readiness_summary": {
+    "readiness_class": "degraded",
+    "summary": "Bellows is reachable but no capture/playback audio device is available."
+  },
+  "operator_visible_message": "Bellows is degraded: no audio device is available for capture or playback.",
+  "details_redacted": true,
+  "last_updated_at": "2026-06-20T12:00:00Z"
+}

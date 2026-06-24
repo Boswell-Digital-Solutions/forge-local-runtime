@@ -35,6 +35,15 @@
         "open_ended_planning",
         "ungoverned_tool_access"
       ]
+    },
+    {
+      "service_id": "bellows-local",
+      "must_not_claim": [
+        "audio_generation_authority",
+        "transcription_authority",
+        "playback_ux_authority",
+        "always_listening"
+      ]
     }
   ]
 }

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://boswelldigitalsolutions.com/schemas/forge-local-runtime/runtime-service-matrix.schema.json",
   "title": "Forge Local Runtime Service Matrix",
-  "description": "Aggregated snapshot composing the per-service status of all four local runtime services into one bounded view. A service that does not report is represented explicitly as unavailable / not_ready, never omitted (fail-closed).",
+  "description": "Aggregated snapshot composing the per-service status of all five local runtime services into one bounded view. A service that does not report is represented explicitly as unavailable / not_ready, never omitted (fail-closed).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -29,8 +29,8 @@
     },
     "services": {
       "type": "array",
-      "minItems": 4,
-      "maxItems": 4,
+      "minItems": 5,
+      "maxItems": 5,
       "allOf": [
         {
           "contains": {
@@ -55,6 +55,12 @@
             "properties": { "service_id": { "const": "fa-local" } },
             "required": ["service_id"]
           }
+        },
+        {
+          "contains": {
+            "properties": { "service_id": { "const": "bellows-local" } },
+            "required": ["service_id"]
+          }
         }
       ],
       "items": {
@@ -75,7 +81,8 @@
               "df-local-foundation",
               "neuronforge-local",
               "cortex",
-              "fa-local"
+              "fa-local",
+              "bellows-local"
             ]
           },
           "service_class": {
@@ -84,7 +91,8 @@
               "substrate",
               "inference",
               "file_intelligence",
-              "execution"
+              "execution",
+              "audio_io"
             ]
           },
           "state": {
