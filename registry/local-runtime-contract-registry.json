@@ -74,7 +74,7 @@
     },
     {
       "seam_id": "forge-local-runtime/service-matrix",
-      "description": "Aggregated four-service status snapshot.",
+      "description": "Aggregated five-service status snapshot.",
       "owner": "forge-local-runtime",
       "consumers": ["authorforge"],
       "contract_id": "runtime-service-matrix",
@@ -148,6 +148,30 @@
       "posture": "candidate",
       "maturity": "implemented",
       "degraded_behavior": "Anchors are syntax-only provenance; absent/fuzzy anchors degrade to derived_metadata-until-confirmed, never canonical."
+    },
+    {
+      "seam_id": "bellows-local/capture-session",
+      "description": "Device-level audio capture + readiness + VAD segmentation; emits capture receipts by ref+hash.",
+      "owner": "bellows-local",
+      "consumers": ["neuronforge-local", "authorforge"],
+      "contract_id": "bellows.capture_receipt.v1",
+      "contract_version": "1",
+      "posture": "candidate",
+      "maturity": "planned",
+      "degraded_behavior": "Fail-closed device readiness: device_unavailable / permission_denied / silent_input / buffer_overrun surface as explicit denied/degraded, never silent capture. Visible recording state; no hidden continuous loop (ADR 0008).",
+      "notes": "Captured audio is candidate input to NeuronForge ASR. Artifacts are source_scope:local — PACT packet-base-shaped and PCC-aligned, but not an admitted contract-core family (ADR 0010); promotion would require an RFC."
+    },
+    {
+      "seam_id": "bellows-local/playback-transport",
+      "description": "Device-level play/pause/resume/stop of an already-produced, hash-validated audio asset, plus playback receipts.",
+      "owner": "bellows-local",
+      "consumers": ["authorforge"],
+      "contract_id": "bellows.playback_receipt.v1",
+      "contract_version": "1",
+      "posture": "authority",
+      "maturity": "planned",
+      "degraded_behavior": "Hash mismatch or device_unavailable fails closed; transport never fabricates playback. No audio generation, no playback UX, no voice selection (those are NeuroForge / AuthorForge).",
+      "notes": "Bellows owns only the device-transport seam + receipt. AuthorForge owns playback UX / accept-reject; NeuroForge owns TTS generation (ADR 0010)."
     }
   ]
 }

@@ -33,6 +33,12 @@ REQUIRED_ASSERTIONS = {
         "open_ended_planning",
         "ungoverned_tool_access",
     },
+    "bellows-local": {
+        "audio_generation_authority",
+        "transcription_authority",
+        "playback_ux_authority",
+        "always_listening",
+    },
 }
 
 
