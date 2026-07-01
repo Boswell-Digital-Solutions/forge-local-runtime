@@ -1,7 +1,7 @@
 schema_version: "RepoManifest.v1"
 
 repo:
-  full_name: "Boswecw/forge-local-runtime"
+  full_name: "Boswell-Digital-Solutions/forge-local-runtime"
   local_name: "forge-local-runtime-master-reference"
   package_name: "forge-local-runtime"
   default_branch: "master"
