@@ -1,5 +1,10 @@
 # Forge Local Runtime
 
+> **System identity — Forge family (public-app local support).**
+> Governance-first constitutional repository for the shared local service substrate that supports Forge's public-facing applications (DF Local Foundation, NeuronForge Local, Cortex, FA Local); part of `apps/public-app-local-support`.
+> **Purpose:** defines runtime doctrine, cross-service boundaries, ownership lines, and anti-drift enforcement for the four governed local services — it does not implement them.
+> **Not the bds counterpart:** the business-side local systems runtime is `ecosystem/local-systems/forge-local-systems-runtime` (bds family).
+
 ## What this repository is
 
 Forge Local Runtime is the governance-first constitutional repository for the shared local service substrate of the Forge ecosystem.
