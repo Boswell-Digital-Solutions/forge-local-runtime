@@ -1,0 +1,41 @@
+name: Documentation CI
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'doc/**'
+      - '**/*.md'
+      - '.github/workflows/documentation.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'docs/**'
+      - 'doc/**'
+      - '**/*.md'
+      - '.github/workflows/documentation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: documentation-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  documentation:
+    name: Documentation (system build and snapshots)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build doc/system and validate snapshots
+        run: bash doc/system/BUILD.sh
+
+      - name: Confirm the assembled reference is committed
+        run: |
+          if ! git diff --exit-code -- doc; then
+            echo "::error::The assembled system reference in doc/ is stale. Run 'bash doc/system/BUILD.sh' and commit the result."
+            exit 1
+          fi
