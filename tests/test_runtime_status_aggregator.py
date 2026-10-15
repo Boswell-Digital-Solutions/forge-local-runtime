@@ -42,13 +42,13 @@ def _ready(service_id: str) -> dict:
 # ── build_service_matrix ─────────────────────────────────────────────────────
 
 
-def test_matrix_always_represents_all_four_services():
+def test_matrix_always_represents_all_five_services():
     matrix = build_service_matrix(
         [_ready("cortex")], generated_at=GENERATED_AT
     )
     ids = {s["service_id"] for s in matrix["services"]}
-    assert ids == {"df-local-foundation", "neuronforge-local", "cortex", "fa-local"}
-    assert len(matrix["services"]) == 4
+    assert ids == {"df-local-foundation", "neuronforge-local", "cortex", "fa-local", "bellows-local"}
+    assert len(matrix["services"]) == 5
 
 
 def test_missing_service_is_fail_closed_unavailable():
@@ -100,7 +100,7 @@ def _matrix(*statuses: dict) -> dict:
 def test_pressure_low_when_all_ready():
     matrix = build_service_matrix(
         [_ready(s) for s, _ in
-         (("df-local-foundation", 0), ("neuronforge-local", 0), ("cortex", 0), ("fa-local", 0))],
+         (("df-local-foundation", 0), ("neuronforge-local", 0), ("cortex", 0), ("fa-local", 0), ("bellows-local", 0))],
         generated_at=GENERATED_AT,
     )
     pressure = derive_pressure(matrix)
@@ -119,6 +119,7 @@ def test_pressure_elevated_on_degraded():
         ),
         _ready("cortex"),
         _ready("fa-local"),
+        _ready("bellows-local"),
     )
     pressure = derive_pressure(matrix)
     assert pressure["pressure_class"] == "elevated"

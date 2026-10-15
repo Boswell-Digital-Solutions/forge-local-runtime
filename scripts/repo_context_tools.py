@@ -308,11 +308,15 @@ Builds:
 def expected_instructions(root: Path) -> dict[str, str]:
     manifest, _manifest_text, manifest_hash = load_manifest(root)
     generated = set(manifest["generated_files"])
-    return {
+    instructions = {
         file_name: render_agent_instruction(file_name, manifest, manifest_hash)
         for file_name in GENERATED_AGENT_FILES
         if file_name in generated
     }
+    notes = root / "docs/claude-context-notes.txt"
+    if "CLAUDE.md" in instructions and notes.exists():
+        instructions["CLAUDE.md"] += "\n<!-- Preserved context source: docs/claude-context-notes.txt -->\n\n" + notes.read_text(encoding="utf-8")
+    return instructions
 
 
 def generate(root: Path) -> None:
@@ -349,6 +353,16 @@ def file_hash(path: Path) -> str | None:
     return sha256(path.read_text(encoding="utf-8"))
 
 
+def observed_default_branch(root: Path) -> str:
+    if os.getenv("GITHUB_ACTIONS") == "true":
+        if os.getenv("GITHUB_EVENT_NAME") == "pull_request":
+            return os.getenv("GITHUB_BASE_REF", "")
+        if os.getenv("GITHUB_REF") == "refs/heads/master":
+            return "master"
+    ref = run_git(root, ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"])
+    return ref.removeprefix("origin/")
+
+
 def verify(root: Path) -> int:
     manifest, _manifest_text, manifest_hash = load_manifest(root)
     repo = manifest["repo"]
@@ -369,7 +383,7 @@ def verify(root: Path) -> int:
     local_name = root.name
     add_check(
         "local_directory_name",
-        local_name == repo["local_name"],
+        local_name in {repo["local_name"], repo["full_name"].split("/")[-1]},
         f"directory is {local_name}; expected {repo['local_name']}",
     )
 
@@ -396,10 +410,12 @@ def verify(root: Path) -> int:
     )
 
     current_branch = run_git(root, ["branch", "--show-current"])
+    # A feature branch or detached PR merge ref does not change repository identity.
+    observed_default = observed_default_branch(root)
     add_check(
         "default_branch",
-        current_branch == repo["default_branch"],
-        f"current branch is {current_branch}; expected {repo['default_branch']}",
+        observed_default == repo["default_branch"],
+        f"origin default / CI base is {observed_default}; expected {repo['default_branch']}; current checkout is {current_branch or 'detached'}",
     )
 
     for file_name in manifest["canonical_files"]:

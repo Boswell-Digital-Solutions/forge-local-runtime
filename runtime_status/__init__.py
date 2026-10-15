@@ -1,6 +1,6 @@
 """Forge Local Runtime status aggregation.
 
-Producer-side composition of the four local services' status into a single
+Producer-side composition of the five local services' status into a single
 bounded service matrix, plus a deterministic three-class pressure indicator
 derived from that matrix. Pure, fail-closed, no I/O.
 """

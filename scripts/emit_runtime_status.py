@@ -2,7 +2,7 @@
 """Emit a runtime service-matrix + pressure snapshot from published statuses.
 
 Reads each service's last-published ``service-status`` JSON from a directory,
-composes the four-service matrix, derives the pressure indicator, and prints a
+composes the five-service matrix, derives the pressure indicator, and prints a
 schema-valid snapshot. Services that did not publish are represented fail-closed
 as ``unavailable`` by the aggregator.
 

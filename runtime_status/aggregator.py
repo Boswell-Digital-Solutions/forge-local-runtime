@@ -3,7 +3,7 @@
 This module implements the producer side of two control surfaces:
 
 * ``build_service_matrix`` composes the per-service ``service-status`` envelopes
-  for the four local services into one ``runtime-service-matrix`` snapshot. A
+  for the five local services into one ``runtime-service-matrix`` snapshot. A
   service that does not report is represented explicitly as ``unavailable`` /
   ``not_ready`` (fail-closed), never dropped.
 * ``derive_pressure`` maps a matrix snapshot to a bounded three-class
@@ -18,12 +18,13 @@ from __future__ import annotations
 from typing import Any, Iterable, Mapping
 
 # Canonical service identity and class, in deterministic order. The matrix always
-# represents exactly these four services.
+# represents exactly these five services.
 CANONICAL_SERVICES: tuple[tuple[str, str], ...] = (
     ("df-local-foundation", "substrate"),
     ("neuronforge-local", "inference"),
     ("cortex", "file_intelligence"),
     ("fa-local", "execution"),
+    ("bellows-local", "audio_io"),
 )
 
 _SERVICE_CLASS = dict(CANONICAL_SERVICES)

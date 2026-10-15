@@ -15,6 +15,7 @@ KNOWN_OWNERS = {
     "neuronforge-local",
     "cortex",
     "fa-local",
+    "bellows-local",
     "forge-local-runtime",
 }
 
