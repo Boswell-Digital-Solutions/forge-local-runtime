@@ -41,7 +41,8 @@
               "df-local-foundation",
               "neuronforge-local",
               "cortex",
-              "fa-local"
+              "fa-local",
+              "bellows-local"
             ]
           },
           "signal": {

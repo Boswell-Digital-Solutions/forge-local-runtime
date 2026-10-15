@@ -33,7 +33,7 @@ def test_build_snapshot_fills_missing_and_validates(tmp_path):
     snapshot, warnings = emit.build_snapshot(tmp_path, generated_at=GENERATED_AT)
     assert warnings == []
     ids = {s["service_id"] for s in snapshot["service_matrix"]["services"]}
-    assert ids == {"df-local-foundation", "neuronforge-local", "cortex", "fa-local"}
+    assert ids == {"df-local-foundation", "neuronforge-local", "cortex", "fa-local", "bellows-local"}
     # missing services -> fail-closed unavailable -> critical pressure
     assert snapshot["pressure"]["pressure_class"] == "critical"
 
@@ -50,6 +50,7 @@ def test_cli_writes_schema_valid_snapshot(tmp_path):
     _write_status(tmp_path, "neuronforge-local", "inference", "ready")
     _write_status(tmp_path, "cortex", "file_intelligence", "ready")
     _write_status(tmp_path, "fa-local", "execution", "ready")
+    _write_status(tmp_path, "bellows-local", "audio_io", "ready")
     out = tmp_path / "snapshot.json"
     rc = emit.main(
         ["--status-dir", str(tmp_path), "--out", str(out), "--generated-at", GENERATED_AT]
