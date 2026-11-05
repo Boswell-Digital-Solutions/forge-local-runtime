@@ -353,14 +353,56 @@ def file_hash(path: Path) -> str | None:
     return sha256(path.read_text(encoding="utf-8"))
 
 
-def observed_default_branch(root: Path) -> str:
-    if os.getenv("GITHUB_ACTIONS") == "true":
-        if os.getenv("GITHUB_EVENT_NAME") == "pull_request":
-            return os.getenv("GITHUB_BASE_REF", "")
-        if os.getenv("GITHUB_REF") == "refs/heads/master":
-            return "master"
-    ref = run_git(root, ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"])
+def _remote_default_branch(root: Path) -> str:
+    """Ask origin which branch its HEAD points at. Needs the network."""
+    try:
+        output = run_git(root, ["ls-remote", "--symref", "origin", "HEAD"])
+    except (subprocess.CalledProcessError, OSError):
+        return ""
+    for line in output.splitlines():
+        match = re.match(r"^ref:\s+refs/heads/(\S+)\s+HEAD$", line.strip())
+        if match:
+            return match.group(1)
+    return ""
+
+
+def _cached_default_branch(root: Path) -> str:
+    """Read the local `refs/remotes/origin/HEAD` pointer. No network.
+
+    `git clone` writes this from the remote HEAD, so it is the remote's answer
+    as of the clone. It can be stale after the remote default changes, and
+    `actions/checkout` never creates it at all.
+    """
+    try:
+        ref = run_git(root, ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"])
+    except (subprocess.CalledProcessError, OSError):
+        return ""
     return ref.removeprefix("origin/")
+
+
+def observed_default_branch(root: Path) -> str:
+    """Report the default branch origin actually serves, or "" if it cannot be read.
+
+    Order matters, because this check exists to catch drift between the declared
+    default branch and the real one:
+
+    1. On a pull request, the event payload's base ref, with no network call.
+    2. The remote, which is the only authority on its own default branch.
+    3. The local `refs/remotes/origin/HEAD` pointer, which is the remote's answer
+       cached at clone time. Used only when the remote is unreachable, so an
+       offline run still reports something. A stale pointer reports the old
+       branch; `git remote set-head origin --auto` refreshes it.
+
+    Never falls back to the checked-out branch. That is the branch that was
+    pushed, not the repository default, and reading it back would make this
+    check pass for any declared value: on a push run `GITHUB_REF` always names
+    the branch the workflow was triggered by. Returning "" on failure keeps the
+    caller reporting an undetermined branch instead of aborting the gate with a
+    traceback, which is what reading an unset `origin/HEAD` used to do.
+    """
+    if os.getenv("GITHUB_ACTIONS") == "true" and os.getenv("GITHUB_EVENT_NAME") == "pull_request":
+        return os.getenv("GITHUB_BASE_REF", "")
+    return _remote_default_branch(root) or _cached_default_branch(root)
 
 
 def verify(root: Path) -> int:
@@ -415,7 +457,7 @@ def verify(root: Path) -> int:
     add_check(
         "default_branch",
         observed_default == repo["default_branch"],
-        f"origin default / CI base is {observed_default}; expected {repo['default_branch']}; current checkout is {current_branch or 'detached'}",
+        f"origin default / CI base is {observed_default or '<undetermined>'}; expected {repo['default_branch']}; current checkout is {current_branch or 'detached'}",
     )
 
     for file_name in manifest["canonical_files"]:

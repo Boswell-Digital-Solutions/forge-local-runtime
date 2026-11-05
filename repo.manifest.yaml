@@ -4,7 +4,7 @@ repo:
   full_name: "Boswell-Digital-Solutions/forge-local-runtime"
   local_name: "forge-local-runtime-master-reference"
   package_name: "forge-local-runtime"
-  default_branch: "master"
+  default_branch: "main"
   repo_class: "local_runtime_governance"
 
 identity:
@@ -103,5 +103,6 @@ verification:
     - "Cloud capability is additive, never a hidden baseline dependency."
   llm_rules:
     - "Start from the real repo root at /home/charlie/Forge/apps/public-app-local-support/forge-local-runtime-master-reference."
-    - "Operate on the default branch master; local main is a stale preserved branch."
+    - "Operate on main. The whole repository is on main: master held 18 commits of work, main held two, and the 2026-11-05 consolidation merged both so main is a superset."
+    - "master still exists and origin still serves it as the default, so a fresh clone lands there. Do not start work on it. Switching the GitHub default to main and deleting master are operator settings changes; docs/KNOWN_ISSUES.md records what remains."
     - "Use this repo to clarify shared runtime doctrine, not to mutate service-local authority."

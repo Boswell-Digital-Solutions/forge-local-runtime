@@ -8,7 +8,7 @@ on:
       - '**/*.md'
       - '.github/workflows/documentation.yml'
   push:
-    branches: [master]
+    branches: [main, master]
     paths:
       - 'docs/**'
       - 'doc/**'

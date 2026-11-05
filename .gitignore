@@ -11,3 +11,14 @@ context-bundle.md
 .env
 .env.*
 !.env.example
+
+# Generated repo-context receipts: timestamped snapshots plus a `latest.json`
+# pointer, written by tooling that captures repo state (schema_version,
+# git_remote, current_branch, ...). Same class of generated context artifact as
+# `context-bundle.md` above, and it reappears in every working tree that runs
+# the capture.
+#
+# Scoped to the subdirectory rather than all of `receipts/`: this is the part
+# verified to be generated, and a blanket rule would silently hide a future
+# receipt type that is meant to be committed.
+receipts/repo-context/

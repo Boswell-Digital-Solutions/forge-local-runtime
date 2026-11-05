@@ -1,9 +1,9 @@
 name: Runtime contract tests
 on:
   pull_request:
-    branches: [master]
+    branches: [main, master]
   push:
-    branches: [master]
+    branches: [main, master]
 permissions:
   contents: read
 jobs:

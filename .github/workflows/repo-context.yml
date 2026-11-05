@@ -2,9 +2,9 @@ name: Repo Context Gate
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main, master]
   push:
-    branches: [master]
+    branches: [main, master]
 
 jobs:
   repo-context:

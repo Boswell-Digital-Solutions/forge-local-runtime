@@ -39,4 +39,17 @@ Standing doctrine also lives in `BOUNDARIES.md`, `ARCHITECTURE.md`, and `DECISIO
 - Runtime promotion is receipted: `runtime_promotion/` and `receipts/` carry the evidence, and promotion policy is enforced, not assumed.
 - Do not add service implementation here to "make it work" — the boundary is the product. This repo is a governance-and-contracts authority repo; it does not exist to absorb implementation from the service repos by convenience.
 - The local runtime must remain meaningful without cloud — cloud services may amplify capability (research depth, connector breadth, orchestration scale) but must not redefine the minimum local baseline.
-- `AGENTS.md`, `CODEX.md`, and `GEMINI.md` in this repo are generated from `repo.manifest.yaml` via `scripts/generate_agent_instructions.py`; this `CLAUDE.md` is hand-maintained rather than regenerated, so keep it in sync with real doctrine changes by hand rather than running the generator over it.
+- **All four** of `AGENTS.md`, `CLAUDE.md`, `CODEX.md` and `GEMINI.md` are generated from
+  `repo.manifest.yaml` by `scripts/generate_agent_instructions.py`, and `.github/workflows/repo-context.yml`
+  regenerates them and fails on `git diff --exit-code` over all four. So do not hand-edit `CLAUDE.md`:
+  the generator overwrites it and CI rejects the difference.
+  
+  The hand-maintained file is **this one**, `docs/claude-context-notes.txt`. `repo_context_tools.py`
+  appends it verbatim to the generated `CLAUDE.md` under a `Preserved context source` marker, which is
+  why the text you are reading survives regeneration. Edit doctrine here, or in the manifest for the
+  generated header, then run the generator.
+  
+  This note previously said `CLAUDE.md` was hand-maintained and told readers to keep it in sync by hand
+  rather than running the generator. That was wrong in a way that would cost an agent its work, and it
+  was corrected on 2026-11-05 after the generator was observed rewriting all four files with the tree
+  left clean.
