@@ -57,6 +57,18 @@ def main() -> int:
             TESTS_DIR / "observability/fixtures/forensic-event-minimized.json",
             SCHEMAS_DIR / "forensic-event-envelope.schema.json",
         ),
+        (
+            TESTS_DIR / "contracts/fixtures/valid/runtime-service-matrix-mixed.json",
+            SCHEMAS_DIR / "runtime-service-matrix.schema.json",
+        ),
+        (
+            TESTS_DIR / "contracts/fixtures/valid/runtime-pressure-elevated.json",
+            SCHEMAS_DIR / "runtime-pressure.schema.json",
+        ),
+        (
+            ROOT / "registry/local-runtime-contract-registry.json",
+            SCHEMAS_DIR / "contract-registry.schema.json",
+        ),
     ]
 
     invalid_cases = [
@@ -67,6 +79,18 @@ def main() -> int:
         (
             TESTS_DIR / "observability/fixtures/forensic-event-content-without-reference.json",
             SCHEMAS_DIR / "forensic-event-envelope.schema.json",
+        ),
+        (
+            TESTS_DIR / "contracts/fixtures/invalid/runtime-service-matrix-missing-service.json",
+            SCHEMAS_DIR / "runtime-service-matrix.schema.json",
+        ),
+        (
+            TESTS_DIR / "contracts/fixtures/invalid/runtime-pressure-bad-class.json",
+            SCHEMAS_DIR / "runtime-pressure.schema.json",
+        ),
+        (
+            TESTS_DIR / "contracts/fixtures/invalid/contract-registry-missing-maturity.json",
+            SCHEMAS_DIR / "contract-registry.schema.json",
         ),
     ]
 

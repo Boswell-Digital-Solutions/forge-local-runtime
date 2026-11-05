@@ -103,6 +103,27 @@ Services may not silently:
 - open-ended planning
 - hidden surveillance
 
+### Bellows
+
+Admitted as the fifth governed local service per ADR 0010, scoped to audio capture and
+device-level audio transport only.
+
+#### Owns
+- audio capture and microphone/speaker device control
+- audio device readiness
+- voice-activity (VAD) segmentation
+- duplex (capture/playback) arbitration
+- device-level playback transport of an already-produced, hash-validated audio asset
+- capture and playback receipts (audio by ref + hash)
+- visible recording-state signaling
+
+#### Does not own
+- audio generation / TTS (NeuroForge audiobook router)
+- transcription or interpretation of captured audio (NeuronForge ASR/text lanes)
+- playback UX, voice selection, or audio-asset acceptance (AuthorForge)
+- always-listening, wake-word, or continuous background capture
+- canonical business truth
+
 ## Forbidden drift patterns
 
 The project must explicitly resist:
@@ -112,6 +133,8 @@ The project must explicitly resist:
 - Cortex drifting into semantics, workflow control, or retrieval-policy authority
 - Cortex observation drifting into broad always-on surveillance
 - FA Local drifting into open-ended autonomy or stealth orchestration monolith behavior
+- Bellows drifting into always-listening, wake-word, or secret-listening capture
+- Bellows absorbing audio generation, transcription, or playback UX from its owners
 - diagnostics becoming content inspection tooling
 - service UIs becoming parallel application identities
 - convenience coupling replacing explicit contracts
@@ -137,5 +160,5 @@ They may not redefine local minimum constitutional responsibility.
 
 ## Visibility rule
 
-All four services remain service-only runtime systems.
+All five services remain service-only runtime systems.
 They are never peer products beside AuthorForge, VibeForge, or future Forge applications.

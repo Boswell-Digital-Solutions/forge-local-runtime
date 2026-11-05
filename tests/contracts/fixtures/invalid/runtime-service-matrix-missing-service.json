@@ -1,0 +1,31 @@
+{
+  "matrix_version": "v1",
+  "generated_at": "2026-06-20T12:00:00Z",
+  "details_redacted": true,
+  "services": [
+    {
+      "service_id": "df-local-foundation",
+      "service_class": "substrate",
+      "state": "ready",
+      "readiness_class": "ready",
+      "observation": "observed",
+      "last_updated_at": "2026-06-20T11:59:50Z"
+    },
+    {
+      "service_id": "neuronforge-local",
+      "service_class": "inference",
+      "state": "ready",
+      "readiness_class": "ready",
+      "observation": "observed",
+      "last_updated_at": "2026-06-20T11:59:55Z"
+    },
+    {
+      "service_id": "cortex",
+      "service_class": "file_intelligence",
+      "state": "ready",
+      "readiness_class": "ready",
+      "observation": "observed",
+      "last_updated_at": "2026-06-20T11:59:58Z"
+    }
+  ]
+}

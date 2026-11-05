@@ -3,6 +3,15 @@ __pycache__/
 .pytest_cache/
 context-bundle.md
 
+# forge-contract-core CI gate evidence reports
+/reports/
+
+# Local credentials must never be newly staged. Existing tracked file is preserved
+# pending owner-controlled credential rotation and history remediation.
+.env
+.env.*
+!.env.example
+
 # Generated repo-context receipts: timestamped snapshots plus a `latest.json`
 # pointer, written by tooling that captures repo state (schema_version,
 # git_remote, current_branch, ...). Same class of generated context artifact as

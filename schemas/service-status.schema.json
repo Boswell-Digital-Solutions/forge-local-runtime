@@ -19,7 +19,8 @@
         "df-local-foundation",
         "neuronforge-local",
         "cortex",
-        "fa-local"
+        "fa-local",
+        "bellows-local"
       ]
     },
     "service_class": {
@@ -28,7 +29,8 @@
         "substrate",
         "inference",
         "file_intelligence",
-        "execution"
+        "execution",
+        "audio_io"
       ]
     },
     "state": {

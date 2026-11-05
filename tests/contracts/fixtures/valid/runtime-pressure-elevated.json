@@ -1,0 +1,13 @@
+{
+  "pressure_version": "v1",
+  "pressure_class": "elevated",
+  "contributing_reasons": [
+    {
+      "service_id": "neuronforge-local",
+      "signal": "degraded",
+      "raised_to": "elevated"
+    }
+  ],
+  "details_redacted": true,
+  "generated_at": "2026-06-20T12:00:00Z"
+}

@@ -4,12 +4,13 @@
 
 Forge Local Runtime defines the governed local service substrate used by Forge applications.
 
-It is the authority layer above four separate service domains:
+It is the authority layer above five separate service domains:
 
 - DF Local Foundation
 - NeuronForge Local
 - Cortex
 - FA Local
+- Bellows
 
 ## Service interaction model
 
@@ -53,12 +54,23 @@ Provides bounded governed execution across approved local routes:
 - execution coordination
 - truthful denial / degraded / partial / completed state reporting
 
+### Bellows
+Provides bounded local audio capture and device-level transport (ADR 0010):
+
+- audio capture and device readiness
+- VAD segmentation
+- duplex arbitration
+- device-level playback transport of already-produced, hash-validated assets
+- capture / playback receipts by ref + hash
+- visible recording-state signaling
+
 ## Cross-service interpretation rule
 
 - DF Local may persist bounded runtime artifacts; it must not become workflow or semantic authority.
 - NeuronForge Local may produce candidates; it must not silently promote them into truth.
 - Cortex may prepare structure; it must not assign meaning.
 - FA Local may execute under policy; it must not absorb semantics or become the hidden planner.
+- Bellows may capture and play audio at the device seam; it must not generate, transcribe, or own playback UX, and must never listen silently or continuously.
 
 ## Local versus cloud boundary
 
@@ -90,7 +102,7 @@ The runtime layer must define shared posture for:
 
 ## Service-only visibility rule
 
-The four governed local services may be visible only through consuming application surfaces such as:
+The five governed local services may be visible only through consuming application surfaces such as:
 
 - application HUD status
 - embedded diagnostics
