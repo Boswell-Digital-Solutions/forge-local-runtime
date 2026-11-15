@@ -2,6 +2,15 @@
 
 This file records confirmed defects and open problems. Each entry states its status, its cause and what is not done.
 
+## 18 `doc/system` chapters are stubs that are byte-identical to chapters of `forge-local-systems-runtime`
+
+- **Status**: Open. Recorded 2026-11-15 by BDS-ORG-ARCH-AUDIT-2026-11. Evidence class: Observed (doc tree), at `forge-local-runtime@3500ef44e9` and `forge-local-systems-runtime@80ba92506a`.
+- **What is wrong**: 18 chapters in `doc/system/` have the same SHA-256 hash as the chapter of the same name in `forge-local-systems-runtime`: `01-architecture.md`, `01-overview-philosophy.md`, `02-architecture.md`, `03-tech-stack.md`, `04-project-structure.md`, `05-configuration.md`, `06-design-system.md`, `07-frontend.md`, `08-api-layer.md`, `09-backend.md`, `10-scope.md`, `11-database-schema.md`, `12-ai-integration.md`, `13-error-handling.md`, `15-handover-migration-notes.md`, `20-structure.md`, `30-governance.md` and `40-change-control.md`. Each is 294 to 526 bytes. Five of them (`01-architecture.md`, `10-scope.md`, `20-structure.md`, `30-governance.md`, `40-change-control.md`) are registry bootstrap placeholders ("Replace this placeholder with real authored content"). The others are one-screen baseline text. For example, `02-architecture.md` holds a partial list of top-level folders under the heading `forge-local-runtime/`, and `forge-local-systems-runtime` holds the same list, with the same heading, in its copy. The audit first counted 17 such chapters; a hash comparison of the clones above finds 18.
+- **Cause**: not determined. Both repositories were bootstrapped by the same generator. The text of one was copied to the other, or the generator wrote the same text.
+- **Impact**: a reader cannot tell from these chapters which repository they describe. The two repositories are different systems (this repository serves Forge public applications; `forge-local-systems-runtime` serves the BDS business side). The stubs say nothing true about either one beyond a folder list.
+- **Fix**: none applied. Recommendation from the audit: author the chapters for each repository, or remove the stubs and the index entries. Then run `bash doc/system/BUILD.sh`.
+- **Related**: `FLS-DOC-SYSTEM-SHARED-STUBS-20261115` in `forge-local-systems-runtime`.
+
 ## The Repo Context Gate fails because CLAUDE.md differs from the generator output
 
 - **Status**: Closed on 2026-10-30. Recorded 2026-10-02. The gate has failed on every push run to `master` that had a result: 2026-07-01, 2026-09-09, 2026-09-25 and 2026-09-30.
